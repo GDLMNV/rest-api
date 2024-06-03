@@ -5,14 +5,16 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/stretchr/testify/mock"
-	"github.com/stretchr/testify/require"
-	"main/internal/http-server/handlers/url/save"
-	"main/internal/http-server/handlers/url/save/mocks"
-	"main/internal/lib/logger/handlers/slogdiscard"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
+
+	"main/internal/http-server/handlers/url/save"
+	"main/internal/http-server/handlers/url/save/mocks"
+	"main/internal/lib/logger/handlers/slogdiscard"
 )
 
 func TestSaveHandler(t *testing.T) {
@@ -43,7 +45,7 @@ func TestSaveHandler(t *testing.T) {
 			name:      "Invalid URL",
 			url:       "some invalid URL",
 			alias:     "some_alias",
-			respError: "field URL is a not valid URL",
+			respError: "field URL is not a valid URL",
 		},
 		{
 			name:      "SaveURL Error",
@@ -86,7 +88,11 @@ func TestSaveHandler(t *testing.T) {
 
 			require.NoError(t, json.Unmarshal([]byte(body), &resp))
 
-			require.Equal(t, tc.respError, resp.Error)
+			require.Equal(
+				t,
+				tc.respError,
+				resp.Error,
+			)
 
 			// TODO: add more checks
 		})
